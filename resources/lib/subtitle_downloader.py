@@ -64,8 +64,6 @@ class SubtitleDownloader:
         file_data = get_file_data(get_file_path())
         language_data = get_language_data(self.params)
         subtitle_path = os.path.join(__temp__, f"{str(uuid.uuid4())}.{self.sub_format}")
-        log(__name__, "subtitle_path '%s' " % subtitle_path)
-        log(__temp__, "subtitle_path '%s' " % subtitle_path)
         log(__name__, "file_data '%s' " % file_data)
         log(__name__, "language_data '%s' " % language_data)
 
@@ -104,7 +102,6 @@ class SubtitleDownloader:
             valid = 0
 
         subtitle_path = os.path.join(__temp__, f"{str(uuid.uuid4())}.{self.sub_format}")
-        log(__name__, "subtitle_path '%s' " % subtitle_path)
         log(__temp__, "subtitle_path '%s' " % subtitle_path)
         if (valid==1):
             tmp_file = open(subtitle_path, "w" + "b")
