@@ -92,10 +92,10 @@ class SubtitlesProvider:
 
     def get_tmdb_id(self, metadata):
         url = f"{TMDB_API}/{metadata['type']}?query={metadata['title']}&api_key={self.tmdb_api_key}"
-        if 'year' in metadata:
+        if 'year' in metadata and metadata['year']:
             url += f"&year={metadata['year']}"
         data = self.handle_request(url)
-        if "results" not in data:
+        if "results" not in data or not data["results"]:
             raise ProviderError("Invalid JSON returned by provider")
         return data["results"][0]["id"]
 
