@@ -1,17 +1,12 @@
-<?xml version="1.0" ?>
-<settings version="1">
-    <section id="service.subtitles.subdl">
-        <category id="user" label="32101">
-            <group id="1">
-                <setting id="TMDBApiKey" type="string">
-                    <level>4</level>
-                    <default>c3475734910bdff3c5438b9e6db991ca</default>
-                </setting>
-                <setting id="APIKey" type="string">
-                    <level>4</level>
-                    <default>ihGUjWUZckyjq_MA7eOC0Kk6IMfhbB9O</default>
-                </setting>
-            </group>
-        </category>
-    </section>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+    <category label="32101">
+        <setting id="use_custom_api" type="bool" label="32203" default="false" />
+        <setting id="APIKey" type="text" label="32201" default="" />
+        <setting id="TMDBApiKey" type="text" label="32202" default="" />
+    </category>
+
+    <category label="32102">
+        <setting id="custom_language" type="enum" label="32204" values="Auto (Theo Kodi)|Tiếng Việt (VI)|Tiếng Anh (EN)|Tiếng Pháp (FR)|Tiếng Đức (DE)|Tiếng Nhật (JA)|Tiếng Hàn (KO)|Tiếng Trung (ZH)" default="0" />
+    </category>
 </settings>
