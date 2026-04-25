@@ -34,12 +34,14 @@ class SubtitlesProvider:
         self.request_headers = {
             "Content-Type": CONTENT_TYPE, 
             "Accept": CONTENT_TYPE,
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
         }
         
         self.session = Session()
         self.session.headers.update(self.request_headers)
-        self.cache = Cache(key_prefix="os_com")
+        
+        # Khởi tạo Cache
+        self.cache = Cache(key_prefix="subdl_cache")
 
     def handle_request(self, url):
         try:
@@ -86,6 +88,14 @@ class SubtitlesProvider:
             }
 
     def get_tmdb_id(self, metadata):
+        # 1. Kiểm tra trong Cache trước khi gọi API
+        cache_key = f"tmdb_{metadata['type']}_{metadata['title']}_{metadata.get('year', '')}"
+        cached_id = self.cache.get(cache_key)
+        if cached_id:
+            logging(f"TMDB ID loaded from cache: {cached_id}")
+            return cached_id
+
+        # 2. Nếu không có trong Cache, gọi API
         url = f"{TMDB_API}/{metadata['type']}?query={metadata['title']}&api_key={self.tmdb_api_key}"
         if metadata.get('year'):
             url += f"&year={metadata['year']}"
@@ -93,13 +103,24 @@ class SubtitlesProvider:
         data = self.handle_request(url)
         if "results" not in data or not data["results"]:
             raise ProviderError("TMDB: Movie/TV Show not found.")
-        return data["results"][0]["id"]
+            
+        tmdb_id = data["results"][0]["id"]
+        # Lưu vào Cache để dùng cho lần sau (mặc định cache 7 ngày)
+        self.cache.set(cache_key, tmdb_id)
+        return tmdb_id
 
     def search_subtitles(self, media_data: dict, languages: str):
         metadata = self.parse_filename(media_data['query'])
-        tmdbID = self.get_tmdb_id(metadata)
+        imdb_id = media_data.get("imdb_id")
         
-        url = f"{API_URL}?api_key={self.api_key}&type={metadata['type']}&languages={languages}&tmdb_id={tmdbID}"
+        # Tối ưu siêu tốc: Nếu Kodi đã quét được IMDB ID, gọi thẳng cho SubDL, bỏ qua TMDB
+        if imdb_id and str(imdb_id).startswith("tt"):
+            logging("Using direct IMDB ID from Kodi")
+            url = f"{API_URL}?api_key={self.api_key}&type={metadata['type']}&languages={languages}&imdb_id={imdb_id}"
+        else:
+            tmdbID = self.get_tmdb_id(metadata)
+            url = f"{API_URL}?api_key={self.api_key}&type={metadata['type']}&languages={languages}&tmdb_id={tmdbID}"
+            
         if metadata['type'] == 'tv':
             url += f"&season_number={metadata['season_number']}&episode_number={metadata['episode_number']}"
             
@@ -113,7 +134,6 @@ class SubtitlesProvider:
     def download_subtitle(self, query: dict):
         sub_id = query["file_id"]
         
-        # Bắt mọi trường hợp URL để Kodi không gọi nhầm link 404
         if sub_id.startswith("http"):
             download_link = sub_id
         elif sub_id.startswith("/"):

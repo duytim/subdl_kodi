@@ -9,4 +9,9 @@
     <category label="32102">
         <setting id="custom_language" type="enum" label="32204" values="Auto (Theo Kodi)|Tiếng Việt (VI)|Tiếng Anh (EN)|Tiếng Pháp (FR)|Tiếng Đức (DE)|Tiếng Nhật (JA)|Tiếng Hàn (KO)|Tiếng Trung (ZH)" default="0" />
     </category>
+    
+    <category label="32103">
+        <setting id="remove_html" type="bool" label="32205" default="false" />
+        <setting id="remove_hi" type="bool" label="32206" default="false" />
+    </category>
 </settings>

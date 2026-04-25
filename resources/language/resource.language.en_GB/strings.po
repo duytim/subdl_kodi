@@ -6,33 +6,45 @@ msgstr ""
 "Language: en\n"
 
 msgctxt "#32001"
-msgid "Error searching for subtitles or API limit reached"
-msgstr ""
+msgid "Error searching for subtitles"
+msgstr "Error searching for subtitles or API limit reached"
 
 msgctxt "#32002"
-msgid "Please enter TMDB and SubDL API Keys or use Default Keys."
-msgstr ""
+msgid "Please enter TMDB and SubDL API Keys"
+msgstr "Please enter TMDB and SubDL API Keys or use Default Keys."
 
 msgctxt "#32101"
 msgid "API Configuration"
-msgstr ""
+msgstr "API Configuration"
 
 msgctxt "#32102"
 msgid "Language Override"
-msgstr ""
+msgstr "Language Override"
+
+msgctxt "#32103"
+msgid "Subtitle Utilities"
+msgstr "Subtitle Utilities"
 
 msgctxt "#32201"
 msgid "SubDL API Key"
-msgstr ""
+msgstr "SubDL API Key"
 
 msgctxt "#32202"
 msgid "TMDB API Key"
-msgstr ""
+msgstr "TMDB API Key"
 
 msgctxt "#32203"
-msgid "Use Custom API Keys (Personal)"
-msgstr ""
+msgid "Use Custom API Keys"
+msgstr "Use Custom API Keys (Personal)"
 
 msgctxt "#32204"
 msgid "Primary Search Language"
-msgstr ""
+msgstr "Primary Search Language"
+
+msgctxt "#32205"
+msgid "Remove HTML"
+msgstr "Automatically remove HTML tags (<font>...)"
+
+msgctxt "#32206"
+msgid "Remove HI"
+msgstr "Remove Hearing Impaired tags [HI]"
